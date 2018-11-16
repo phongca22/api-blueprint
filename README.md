@@ -124,6 +124,8 @@ ADD test.apib /test.apib
 
 CMD ["-f","/test.apib"]
 
+EXPOSE 3000
+
 ENTRYPOINT ["drakov","-p","3000", "--public"]
 ```
 
@@ -136,7 +138,7 @@ docker build -t mock-server .
 
 ### Run
 ``` bash
-docker run --name demo-serer mock-server -p 3000:3000
+docker run --name demo-serer mock-server
 ```
 
 # API renderer
