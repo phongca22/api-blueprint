@@ -1,53 +1,84 @@
 FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
 
-# Advanced Action API
-A resource action is – in fact – a state transition. This API example
-demonstrates an action - state transition - to another resource.
+# Phong ca
 
+Polls is a simple API allowing consumers to view polls and vote in them.
 
-# Tasks [/tasks/tasks{?status,priority}]
+## Questions Collection [/questions{?status,rank}]
 
 + Parameters
     + status (string)
-    + priority (number)
+    + rank (number)
 
-## List All Tasks [GET]
+### List All Questions [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "id": 123,
-                "name": "Exercise in gym",
-                "done": false,
-                "type": "task"
-            },
-            {
-                "id": 124,
-                "name": "Shop for groceries",
-                "done": true,
-                "type": "task"
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 2048
+                    }, {
+                        "choice": "Python",
+                        "votes": 1024
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 512
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 256
+                    }
+                ]
             }
         ]
 
-## Retrieve Task [GET /task/{id}]
-This is a state transition to another resource.
+### Create a New Question [POST]
 
-+ Parameters
-    + id (string)
+You may create your own question using this action. It takes a JSON
+object containing a question and a collection of answers in the
+form of choices.
 
-+ Response 200 (application/json)
++ Request (application/json)
 
         {
-            "id": 123,
-            "name": "Go to gym",
-            "done": false,
-            "type": "task"
+            "question": "Favourite programming language?",
+            "choices": [
+                "Swift",
+                "Python",
+                "Objective-C",
+                "Ruby"
+            ]
         }
 
-## Delete Task [DELETE /task/{id}]
++ Response 201 (application/json)
 
-+ Parameters
-    + id (string)
+    + Headers
 
-+ Response 204
+            Location: /questions/2
+
+    + Body
+
+            {
+                "question": "Favourite programming language?",
+                "published_at": "2015-08-05T08:40:51.620Z",
+                "choices": [
+                    {
+                        "choice": "Swift",
+                        "votes": 0
+                    }, {
+                        "choice": "Python",
+                        "votes": 0
+                    }, {
+                        "choice": "Objective-C",
+                        "votes": 0
+                    }, {
+                        "choice": "Ruby",
+                        "votes": 0
+                    }
+                ]
+            }
